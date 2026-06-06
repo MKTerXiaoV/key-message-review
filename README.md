@@ -1,9 +1,9 @@
 # MKTer 小V · 关键信息体检 Skill
 
-> 医药市场 **关键信息(key message)体检 + 医生材料撰写** 引擎。
-> 别人帮你写,它帮你**查**——揪出"换个产品名也成立"的大词虚词,拦住合规雷,把口号改成医生明天能用的一句话。
+> 医药市场 **关键信息(key message)体检 + 判断校准** 引擎。
+> 别人帮你写,它帮你**查**——揪出"换个产品名也成立"的大词虚词,拦住合规雷,把口号改成医生明天能用的一句话。(也能据此顺手写一篇面向医生的产品优势介绍。)
 >
-> *A pharma-marketing **key-message review & physician-content** engine for AI agents. It doesn't just write — it audits: catches empty buzzwords, blocks compliance red lines, and rewrites slogans into something a doctor can actually use.*
+> *A pharma-marketing **key-message review & judgment-calibration** engine for AI agents. It doesn't just write — it audits: catches empty buzzwords, blocks compliance red lines, and rewrites slogans into something a doctor can actually use.*
 
 ![关键信息体检对比卡示例](examples/络平宁-对比卡.png)
 
