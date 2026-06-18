@@ -21,12 +21,16 @@ key-message-review/
 │   ├── 视觉信息权重倒挂.md     #   展架/海报/slide 专用：大字玻璃珠、脚注藏钻石
 │   └── 评分卡.md             #   及格/良好/优秀 判定 + 固定输出格式
 ├── assets/
-│   └── compare-card.html     # 对比卡模板：Guizang Swiss 数据驱动（accent 可切；改后支持 diamond/supports 两结构）
+│   ├── compare-card.html     # 对比卡模板：Guizang Swiss 数据驱动（accent 可切；改后支持 diamond/supports 两结构）
+│   └── report.html           # 交互式体检报告页模板：暖编辑风数据驱动（评级+挑刺accordion+改前后+成品+IP lockup）
 ├── scripts/
-│   └── render-card.mjs       # 把对比卡 HTML 渲染成 PNG（playwright）
+│   ├── render-card.mjs       # 把对比卡 HTML 渲染成 PNG（playwright）
+│   └── render-report.mjs     # 把体检报告渲染成自包含交互 HTML（可选 --png 截长图；头像自动 base64 内嵌）
 ├── examples/
 │   ├── 络平宁-高血压-样张.md   # 全脱敏样张（虚构降压药，跑完 4 步）
-│   └── 络平宁-card.json       # 对比卡数据，喂给 render-card.mjs
+│   ├── 络平宁-card.json       # 对比卡数据，喂给 render-card.mjs
+│   ├── 络平宁-report.json     # 体检报告数据（REPORT_DATA），喂给 render-report.mjs
+│   └── 络平宁-体检报告.html    # 生成的交互报告样张（可直接打开看）
 └── _private/                 # ⚠ 内部产物，.gitignore，不打包不发布
                               #   （如竞品分析对比卡——含真实竞品衍生内容，不可对外）
 ```
@@ -44,7 +48,8 @@ key-message-review/
 - 内容自检：全仓不得出现任何方法论来源人名（人工抽查 + 内部维护一份私有禁词表，不写入仓库）。
 - 对比卡：`cd examples && node ../scripts/render-card.mjs 络平宁-card.json out.png`，应生成 1080×1440 PNG（Swiss 风），文字清晰、改前灰色删除线、改后强调色，**页脚不被裁切**。
 - 对比卡溢出自检：content scrollHeight 应 ≤ 1440（内容多时优先精简文案，勿超）。
-- 依赖：render 需 playwright；无则自动回退系统 Chrome（脚本已内置）。
+- 报告页：`node scripts/render-report.mjs examples/络平宁-report.json examples/络平宁-体检报告.html`，浏览器打开应见：评级结论先行、挑刺 accordion 可展开、合规雷标红、改前→改后正确、成品可折叠、右上+右下 IP lockup 齐、头像 base64（非 file://）、MA/RA 免责在底。
+- 依赖：render 需 playwright（仅对比卡 PNG / 报告 --png 用）；无则自动回退系统 Chrome（脚本已内置）。报告页主产出是纯 HTML，**无 playwright 也能出**。
 
 ## 已完成（v0.1 → v0.2）
 
@@ -64,6 +69,13 @@ key-message-review/
 - [x] **B 输出元数据**:体检报告顶部带 `[产品/适应症·日期·档位·评级]`,可归档可对比。
 - [x] **C 每条挑刺必引原句**(硬规则):「原句」→问题→其实想说什么,不准只说"有大词"。
 - [x] **D 存疑就查不编**:外部可变事实(竞品/获批/指南)不确定 → 触发 web 核实或标 [待核实]。
+
+## v0.3.2（新增交互式体检报告页 · 第三种输出）
+
+- [x] **交互式体检报告页**（`assets/report.html` + `scripts/render-report.mjs`）：整份体检做成自包含交互 HTML（评级结论先行 / 逐条挑刺 accordion 可展开 / 改前→改后 / 成品可折叠）。视觉继承 MKTer 小V 暖编辑风设计系统（`brand/templates/交易物落地页-模板.html`），符合 SOP §6 门面走 baoyu-design 设计系统。
+- [x] REPORT_DATA = CARD_DATA 超集（复用 before/after，加 meta/verdict/flaws/product）；头像自动 base64 内嵌（避 file://，SOP §8）；不传 brand 不署名（同对比卡铁律，竞品报告进 _private/）。
+- [x] **回归用例**（SOP §8 测试关）：`examples/络平宁-report.json`（标准档）+ `tests/优秀档-空挑刺.json`（空 flaws/null product 自动隐藏段）+ `tests/全大词-不及格.json`（多条合规雷标红）。三档评级徽章配色、空字段健壮性均经 CDP 实测通过。
+- 区别于对比卡：对比卡=单张定格图（传播用），报告页=完整可交互交付物（深档默认带，正式交活用）。
 
 ## 待办
 

@@ -71,6 +71,7 @@
   /* 个人 IP 品牌签名（仅传 brand 字段时显示；竞品分析卡不传=不显示）*/
   .brand-sig{margin-top:var(--sp-5);padding-top:var(--sp-7);border-top:1px solid var(--grey-2);align-items:stretch;}
   .brand-bar{width:6px;background:var(--accent);flex:none;}
+  .brand-ava{width:64px;height:64px;border-radius:50%;object-fit:cover;border:3px solid var(--accent);flex:none;}
   .brand-lines{justify-content:center;}
   .brand-name{font-family:var(--sans-zh);font-weight:700;font-size:30px;letter-spacing:.02em;color:var(--ink);}
   .brand-series{font-family:var(--mono);font-weight:500;font-size:18px;letter-spacing:.1em;text-transform:uppercase;color:var(--grey-3);}
@@ -104,9 +105,9 @@
       ],
       oneliner: "「一片，管住清晨那一峰」"
     },
-    brand: "MKTer 小V Skill",
+    brand: "MKTer 小V",
     brandSeries: "",
-    brandTag: "关键信息体检 · 一起进化",
+    brandTag: "一起进化",
     footer: ""
   };
 
@@ -155,7 +156,7 @@
   if (d.brand) {
     const series = d.brandSeries ? ` <span class="brand-series">· ${esc(d.brandSeries)}</span>` : "";
     html += `<div class="brand-sig row gap-5">`
-          +   `<div class="brand-bar"></div>`
+          +   (d.avatar ? `<img class="brand-ava" src="${esc(d.avatar)}" alt="">` : `<div class="brand-bar"></div>`)
           +   `<div class="brand-lines stack gap-3">`
           +     `<span class="brand-name">${esc(d.brand)}${series}</span>`
           +     (d.brandTag ? `<span class="brand-tag">${esc(d.brandTag)}</span>` : "")

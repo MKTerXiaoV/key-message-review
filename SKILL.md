@@ -1,7 +1,7 @@
 ---
 name: key-message-review
 description: 关键信息体检 skill —— 医药市场关键信息(key message)体检 + 判断校准引擎。输入产品的定位、策略、疾病领域、关键信息(key message)，做体检评级(及格/良好/优秀)、逐句挑刺(大词虚词/推不出医生动作/合规雷)、判断校准与落地改写；自带合规红线拦截，可选生成"改前 vs 改后"对比卡图片。也能据改写后的信息顺手写一篇面向医生的产品优势介绍。触发词：关键信息体检、key message、关键信息、品牌定位体检、产品定位、message 体检、内容体检、判断校准、挑刺、改写文案、市场部内容、品牌信息、定位是否优秀、合规检查。
-version: 0.3.1
+version: 0.3.2
 ---
 
 # 关键信息体检引擎（关键信息体检 skill）
@@ -101,10 +101,11 @@ version: 0.3.1
 | `references/合规红线.md` | 每次产出前必过 |
 | `references/视觉信息权重倒挂.md` | 输入是展架/易拉宝/海报/slide 等**有版面的物料**时 |
 | `references/评分卡.md` | 打分时 |
+| `references/迭代法.md` | 想让体检"越用越像你"时:自己改真实 message → AI 提炼规则 → 更新黑名单/EXTEND(约束型护城河) |
 
-## 可选输出：改前 vs 改后 对比卡（图片）
+## 可选输出 A：改前 vs 改后 对比卡（图片 · Swiss）
 
-文字类对比卡**用 HTML 渲染，不用文生图**（文生图写不准中文）。
+文字类对比卡**用 HTML 渲染，不用文生图**（文生图写不准中文）。**单张定格卡**，适合小红书/公众号截图传播。
 - 模板：`assets/compare-card.html` —— Guizang **Swiss 视觉系统**，数据驱动。
 - 强调色可切：`data.accent` = `ikb`(默认,克莱因蓝) / `safety-orange` / `lemon-green` / `lemon-yellow`。
 - "改后"支持两种结构：有硬数字用 `diamond{num,unit,note}`(钻石高亮)；无数字用 `supports[]`(▸ 列表)。
@@ -112,6 +113,15 @@ version: 0.3.1
 - 合规小字 `footer` 为**可选**：传才显示（公开/虚构 OPC 卡通常不带；真实学术/推广材料按需传 MA/RA 声明）。
 - 生成：`node scripts/render-card.mjs <数据json> <输出png>`（JSON schema 见脚本头注释 / `examples/络平宁-card.json`）。
 - 文生图只用于装饰封面/题图，**不碰正文文字**。
+
+## 可选输出 B：交互式体检报告页（HTML · 暖编辑风）
+
+把整份体检（评级 + 逐条挑刺 + 改前→改后 + 成品）做成**一份自包含交互 HTML**，可本地打开 / 发文件 / 选发 pages.dev。和对比卡的区别：对比卡是"单张定格卡"，报告页是"完整可交互交付物"——**深档默认带上它**，正式交活更像产品。
+- 模板：`assets/report.html` —— 继承 MKTer 小V **暖编辑风**设计系统（`brand/templates/交易物落地页-模板.html`），数据驱动。
+- 交互：逐条挑刺 accordion 可展开（点开看"问题 + 它其实想说什么"），合规红线项自动标红；成品可折叠。
+- IP lockup：右上 `MKTer 小V · 一起进化` 角标 + 右下深色署名卡（头像自动内嵌 base64）+ MA/RA 免责；**不传 brand 则只显竖条不署名**（竞品分析报告进 `_private/` 不署名，同对比卡铁律）。
+- 数据结构是 **CARD_DATA 的超集**（REPORT_DATA）：复用 `before/after`，新增 `meta`/`verdict`/`flaws[]`/`product`。schema 见 `scripts/render-report.mjs` 头注释 / `examples/络平宁-report.json`。
+- 生成：`node scripts/render-report.mjs <数据json> [输出.html] [--png]`（主产出 HTML；加 `--png` 再截一张长图）。
 
 ## 用户偏好（EXTEND.md）
 
