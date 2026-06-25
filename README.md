@@ -5,6 +5,8 @@
 >
 > *A pharma-marketing **key-message review & judgment-calibration** engine for AI agents. It doesn't just write — it audits: catches empty buzzwords, blocks compliance red lines, and rewrites slogans into something a doctor can actually use.*
 
+> ⭐ **装上觉得有用?顺手点个 Star** —— 让更多医药市场部同行刷到它,也让我知道这条路走得通。
+
 ![关键信息体检对比卡示例](examples/络平宁-对比卡.png)
 
 > 上图为 skill 生成的"改前 vs 改后"对比卡(示例产品**络平宁纯属虚构**)。
